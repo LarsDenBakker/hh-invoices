@@ -6,7 +6,7 @@
   "scripts": {
     "start": "es-dev-server --app-index index.html --babel --file-extensions .ts --http2 --node-resolve --port 8000 --watch --open",
     "start:invoice-renderer": "es-dev-server --app-index src/invoice-renderer/index.html --node-resolve --port 8000 --open",
-    "build": "rm -rf dist && npm run build:app && cp invoice.html dist/ && cp -r invoice-renderer/ dist/invoice-renderer/",
+    "build": "rm -rf dist && npm run build:app && cp google948f3b92e52dc3b2.html dist/google948f3b92e52dc3b2.html",
     "build:app": "rm -rf dist && rollup -c rollup.app.config.js",
     "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
