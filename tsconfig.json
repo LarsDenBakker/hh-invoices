@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["es2017", "dom"],
+    "noEmit": true,
+    "strict": true,
+    "experimentalDecorators": true
+  }
+}
