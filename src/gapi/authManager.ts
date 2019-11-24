@@ -1,9 +1,10 @@
 import gapi from './gapi';
 import { CLIENT_ID, API_KEY, API_SCOPES } from './config';
+import { EventTargetShim } from '../utils';
 
 const DISCOVERY_DOCS = ['https://sheets.googleapis.com/$discovery/rest?version=v4'];
 
-class AuthManager extends EventTarget {
+class AuthManager extends EventTargetShim {
   signedIn = false;
 
   async initialize() {
