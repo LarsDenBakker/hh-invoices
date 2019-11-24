@@ -8,34 +8,33 @@ import { when } from '../utils';
 class HhHeader extends LitElement {
   @property() invoices: Invoice[] | null = null;
   @property() selectedInvoice: Invoice | null = null;
-  @property() loading = false;
+  @property() fetchingOverview = false;
+  @property() fetchingDetails = false;
   @property() error = false;
 
   static styles = css`
     :host {
       display: block;
+      text-align: center;
+      font-size: 20px;
     }
 
     .invoices {
-      display: grid;
-      margin: 0 auto;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      grid-gap: 8px;
-    }
-
-    .invoices > div {
-      margin: 0 auto;
-    }
-
-    .save-button-wrapper {
-      margin: 16px 0;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
+    }
+
+    select {
+      font-size: 24px;
+      margin-right: 8px;
     }
 
     iframe {
+      display: block;
       height: 1000px;
       width: 100%;
+      border-radius: 8px;
+      border: none;
     }
   `;
 
@@ -44,19 +43,19 @@ class HhHeader extends LitElement {
 
     try {
       console.log('Fetching invoices...');
-      this.loading = true;
+      this.fetchingOverview = true;
       this.invoices = await readInvoices();
       console.log('Fetched invoices');
     } catch (error) {
       this.error = true;
       console.error(error);
     } finally {
-      this.loading = false;
+      this.fetchingOverview = false;
     }
   }
 
   render() {
-    if (this.loading) {
+    if (this.fetchingOverview) {
       return html`
         <p>Loading...</p>
       `;
@@ -69,46 +68,68 @@ class HhHeader extends LitElement {
 
     if (this.invoices) {
       return html`
-        <p><strong>Select an invoice:</strong></p>
-
         <div class="invoices">
-          ${this.invoices
-            .filter(_ => !!_.id)
-            .map(
-              invoice =>
-                html`
-                  <div>
-                    <mwc-button outlined @click=${() => this.printInvoice(invoice)}>
-                      ${invoice.id}
-                    </mwc-button>
-                  </div>
-                `,
-            )}
-        </div>
+          <select @change=${this.onSelectedInvoiceChanged}>
+            <option>Select an invoice</option>
+            ${this.invoices
+              .filter(_ => !!_.id)
+              .map(
+                invoice =>
+                  html`
+                    <option>${invoice.id}</option>
+                  `,
+              )}
+          </select>
 
-        <div class="save-button-wrapper">
           <mwc-button class="save-button" outlined raised @click=${this.onSave}>Save</mwc-button>
         </div>
 
-        ${when(
-          this.selectedInvoice,
-          () => html`
-            <iframe
-              src="/invoice.html?invoice=${encodeURIComponent(
-                JSON.stringify(this.selectedInvoice),
-              )}"
-            ></iframe>
-          `,
-        )}
+        <p class="details">
+          ${when(
+            this.fetchingDetails,
+            () =>
+              html`
+                Loading...
+              `,
+          )}
+          ${when(
+            !this.fetchingDetails && this.selectedInvoice,
+            () => html`
+              <iframe
+                src="/invoice.html?invoice=${encodeURIComponent(
+                  JSON.stringify(this.selectedInvoice),
+                )}"
+              ></iframe>
+            `,
+          )}
+        </p>
       `;
     }
   }
 
-  private async printInvoice(invoice: Invoice) {
-    this.selectedInvoice = await readInvoiceDetails(invoice);
+  private async selectInvoice(invoice: Invoice) {
+    try {
+      this.fetchingDetails = true;
+      this.selectedInvoice = await readInvoiceDetails(invoice);
+    } finally {
+      this.fetchingDetails = false;
+    }
+  }
+
+  private onSelectedInvoiceChanged(e) {
+    const id = Number(e.target.value);
+    const invoice = this.invoices!.find(i => ((i.id as unknown) as number) === id);
+    if (invoice) {
+      this.selectInvoice(invoice);
+    } else {
+      this.selectedInvoice = null;
+    }
   }
 
   private onSave() {
-    this.shadowRoot!.querySelector('iframe').contentWindow.print();
+    const iframe = this.shadowRoot!.querySelector('iframe');
+    if (iframe) {
+      iframe.contentWindow!.print();
+    }
   }
 }

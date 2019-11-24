@@ -7,6 +7,14 @@ import './hh-invoice-overview';
 @customElement('hh-app')
 class HhHeader extends LitElement {
   static styles = css`
+    :host {
+      font-size: 20px;
+    }
+
+    .text {
+      text-align: center;
+    }
+
     main {
       margin-top: 88px;
     }
@@ -40,7 +48,7 @@ class HhHeader extends LitElement {
   render() {
     if (this.error) {
       return html`
-        <p>Something went wrong</p>
+        <p class="text">Something went wrong</p>
       `;
     }
 
@@ -52,7 +60,7 @@ class HhHeader extends LitElement {
           !this.initialized,
           () =>
             html`
-              <p>Loading...</p>
+              <p class="text">Loading...</p>
             `,
         )}
         ${when(
