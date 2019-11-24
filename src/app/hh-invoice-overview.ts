@@ -2,10 +2,12 @@ import { LitElement, html, css, customElement, property } from 'lit-element';
 import '@material/mwc-button';
 import { Invoice, Expense, Production } from '../invoice/Invoice';
 import { readInvoices, readInvoiceDetails } from '../gapi/sheets';
+import { when } from '../utils';
 
 @customElement('hh-invoice-overview')
 class HhHeader extends LitElement {
   @property() invoices: Invoice[] | null = null;
+  @property() selectedInvoice: Invoice | null = null;
   @property() loading = false;
   @property() error = false;
 
@@ -23,6 +25,17 @@ class HhHeader extends LitElement {
 
     .invoices > div {
       margin: 0 auto;
+    }
+
+    .save-button-wrapper {
+      margin: 16px 0;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    iframe {
+      height: 1000px;
+      width: 100%;
     }
   `;
 
@@ -72,15 +85,30 @@ class HhHeader extends LitElement {
                 `,
             )}
         </div>
+
+        <div class="save-button-wrapper">
+          <mwc-button class="save-button" outlined raised @click=${this.onSave}>Save</mwc-button>
+        </div>
+
+        ${when(
+          this.selectedInvoice,
+          () => html`
+            <iframe
+              src="/invoice.html?invoice=${encodeURIComponent(
+                JSON.stringify(this.selectedInvoice),
+              )}"
+            ></iframe>
+          `,
+        )}
       `;
     }
   }
 
   private async printInvoice(invoice: Invoice) {
-    const invoiceWithDetails = await readInvoiceDetails(invoice);
-    window.open(
-      `/invoice.html?invoice=${encodeURIComponent(JSON.stringify(invoiceWithDetails))}`,
-      '_blank',
-    );
+    this.selectedInvoice = await readInvoiceDetails(invoice);
+  }
+
+  private onSave() {
+    this.shadowRoot!.querySelector('iframe').contentWindow.print();
   }
 }
