@@ -10,7 +10,7 @@ render(
     <div class="invoice">
       <div>
         <div class="header">
-          <img src="./Logo HH.png" />
+          <img src="/logo.png" />
           <div>Castricum, ${invoiceDate}</div>
         </div>
 

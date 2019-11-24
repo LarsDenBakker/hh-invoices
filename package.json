@@ -7,7 +7,7 @@
     "start": "es-dev-server --app-index index.html --babel --file-extensions .ts --http2 --node-resolve --port 8000 --watch --open",
     "build": "rm -rf dist && npm run build:app && npm run build:invoice-app",
     "build:app": "rollup -c rollup.app.config.js",
-    "build:invoice-app": "rollup -c rollup.invoice-app.config.js && cp invoice.html dist/invoice.html",
+    "build:invoice-app": "rollup -c rollup.invoice-app.config.js",
     "start:build": "es-dev-server --root-dir dist --open",
     "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
