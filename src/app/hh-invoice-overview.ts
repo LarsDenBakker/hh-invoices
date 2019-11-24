@@ -15,8 +15,14 @@ class HhHeader extends LitElement {
     }
 
     .invoices {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      margin: 0 auto;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      grid-gap: 8px;
+    }
+
+    .invoices > div {
+      margin: 0 auto;
     }
   `;
 
@@ -50,16 +56,19 @@ class HhHeader extends LitElement {
 
     if (this.invoices) {
       return html`
-        <p>Select an invoice:</p>
+        <p><strong>Select an invoice:</strong></p>
+
         <div class="invoices">
           ${this.invoices
             .filter(_ => !!_.id)
             .map(
               invoice =>
                 html`
-                  <mwc-button @click=${() => this.printInvoice(invoice)}>
-                    ${invoice.id}
-                  </mwc-button>
+                  <div>
+                    <mwc-button outlined @click=${() => this.printInvoice(invoice)}>
+                      ${invoice.id}
+                    </mwc-button>
+                  </div>
                 `,
             )}
         </div>
