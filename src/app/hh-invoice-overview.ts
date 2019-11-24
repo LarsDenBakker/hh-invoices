@@ -50,13 +50,18 @@ class HhHeader extends LitElement {
 
     if (this.invoices) {
       return html`
+        <p>Select an invoice:</p>
         <div class="invoices">
-          ${this.invoices.map(
-            invoice =>
-              html`
-                <mwc-button @click=${() => this.printInvoice(invoice)}>${invoice.id}</mwc-button>
-              `,
-          )}
+          ${this.invoices
+            .filter(_ => !!_.id)
+            .map(
+              invoice =>
+                html`
+                  <mwc-button @click=${() => this.printInvoice(invoice)}>
+                    ${invoice.id}
+                  </mwc-button>
+                `,
+            )}
         </div>
       `;
     }

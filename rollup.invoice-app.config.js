@@ -23,7 +23,7 @@ export default {
         const htmlPath = path.join(__dirname, 'invoice.html');
         const htmlString = fs.readFileSync(htmlPath, 'utf-8');
 
-        const logoPath = path.join(__dirname, 'assets', 'logo.png');
+        const logoPath = path.join(__dirname, 'logo.png');
         const logoBuffer = fs.readFileSync(logoPath);
 
         this.emitFile({

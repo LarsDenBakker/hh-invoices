@@ -6,6 +6,12 @@ import './hh-invoice-overview';
 
 @customElement('hh-app')
 class HhHeader extends LitElement {
+  static styles = css`
+    main {
+      margin-top: 88px;
+    }
+  `;
+
   @property() signedIn = false;
   @property() initialized = false;
   @property() error = false;
@@ -32,12 +38,6 @@ class HhHeader extends LitElement {
   }
 
   render() {
-    if (!this.initialized) {
-      return html`
-        Loading...
-      `;
-    }
-
     if (this.error) {
       return html`
         <p>Something went wrong</p>
@@ -45,14 +45,30 @@ class HhHeader extends LitElement {
     }
 
     return html`
-      <hh-header></hh-header>
+      <hh-header .initialized=${this.initialized} .signedIn=${this.signedIn}></hh-header>
 
-      ${when(
-        this.signedIn,
-        () => html`
-          <hh-invoice-overview></hh-invoice-overview>
-        `,
-      )}
+      <main>
+        ${when(
+          !this.initialized,
+          () =>
+            html`
+              <p>Loading...</p>
+            `,
+        )}
+        ${when(
+          this.initialized && !this.signedIn,
+          () => html`
+            <p>Log in to get started</p>
+            <mwc-button @click=${authManager.login}>Log in</mwc-button>
+          `,
+        )}
+        ${when(
+          this.initialized && this.signedIn,
+          () => html`
+            <hh-invoice-overview></hh-invoice-overview>
+          `,
+        )}
+      </main>
     `;
   }
 }
