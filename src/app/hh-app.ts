@@ -8,11 +8,8 @@ import './hh-invoice-overview';
 class HhHeader extends LitElement {
   static styles = css`
     :host {
-      font-size: 20px;
-    }
-
-    .text {
       text-align: center;
+      font-size: 20px;
     }
 
     main {
@@ -66,8 +63,12 @@ class HhHeader extends LitElement {
         ${when(
           this.initialized && !this.signedIn,
           () => html`
-            <p>Log in to get started</p>
-            <mwc-button @click=${authManager.login}>Log in</mwc-button>
+            <p>
+              Log in to get started
+            </p>
+            <mwc-button class="login" outlined raised @click=${authManager.login}>
+              Log in
+            </mwc-button>
           `,
         )}
         ${when(

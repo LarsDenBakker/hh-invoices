@@ -29,12 +29,12 @@ class HhHeader extends LitElement {
         <div slot="title">Handen in het Haar</div>
 
         ${when(
-          this.initialized,
+          this.initialized && this.signedIn,
           () => html`
             <mwc-button
-              class="auth-button"
               slot="actionItems"
-              label=${this.signedIn ? 'Log out' : 'Log in'}
+              class="auth-button"
+              label="Log out"
               outlined
               @click=${this.changeAuth}
             >

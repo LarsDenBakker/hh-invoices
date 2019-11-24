@@ -16,7 +16,6 @@ class HhHeader extends LitElement {
     :host {
       display: block;
       text-align: center;
-      font-size: 20px;
     }
 
     .invoices {
