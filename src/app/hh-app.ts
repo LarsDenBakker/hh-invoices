@@ -8,6 +8,12 @@ import './hh-invoice-overview';
 class HhHeader extends LitElement {
   static styles = css`
     :host {
+      --mdc-theme-primary: #98ff98;
+      --mdc-theme-on-primary: #6200ee;
+      --mdc-button-outline-color: #6200ee;
+    }
+
+    :host {
       text-align: center;
       font-size: 20px;
     }

@@ -1,3 +1,4 @@
+import '@pwabuilder/pwainstall';
 import { LitElement, html, css, customElement, property } from 'lit-element';
 import '@material/mwc-button';
 import '@material/mwc-top-app-bar-fixed';
@@ -18,8 +19,12 @@ class HhHeader extends LitElement {
       left: 0;
     }
 
+    pwa-install {
+      margin-right: 8px;
+    }
+
     .auth-button {
-      --mdc-theme-primary: white;
+      --mdc-theme-primary: #6200ee;
     }
   `;
 
@@ -27,6 +32,12 @@ class HhHeader extends LitElement {
     return html`
       <mwc-top-app-bar-fixed>
         <div slot="title">Handen in het Haar</div>
+
+        <pwa-install
+          slot="actionItems"
+          showeligible
+          manifestpath="/assets/manifest.json"
+        ></pwa-install>
 
         ${when(
           this.initialized && this.signedIn,

@@ -80,7 +80,14 @@ class HhHeader extends LitElement {
               )}
           </select>
 
-          <mwc-button class="save-button" outlined raised @click=${this.onSave}>Save</mwc-button>
+          <mwc-button
+            class="save-button"
+            outlined
+            raised
+            .disabled=${!this.selectedInvoice || this.fetchingDetails}
+            @click=${this.onSave}
+            >Save</mwc-button
+          >
         </div>
 
         <p class="details">
