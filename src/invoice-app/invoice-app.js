@@ -54,8 +54,8 @@ render(
       <div>
         <div class="address">
           <div>Astrid Vreeken</div>
-          <div>Professor van der Scheerlaan 9</div>
-          <div>1901 KN Castricum</div>
+          <div>Doctor Ramaerlaan 22</div>
+          <div>1901 KW Castricum</div>
         </div>
         <div class="contact-details">
           <div>Tel: 06 16904155</div>
