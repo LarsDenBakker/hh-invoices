@@ -139,7 +139,10 @@ class HhHeader extends LitElement {
   private onSave() {
     const iframe = this.shadowRoot!.querySelector('iframe');
     if (iframe) {
+      const oldTitle = document.title;
+      document.title = iframe.contentDocument!.title;
       iframe.contentWindow!.print();
+      document.title = oldTitle;
     }
   }
 }
