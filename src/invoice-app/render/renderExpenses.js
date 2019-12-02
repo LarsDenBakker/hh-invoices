@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-import { formatAmount } from '../utils/formatters.js';
+import { formatAmount, formatNumber } from '../utils/formatters.js';
 
 function sum(...args) {
   return (
@@ -27,7 +27,7 @@ export function renderExpenses(expenses) {
       ${expenses.map(
         expense => html`
           <div>${expense.name}</div>
-          <div>${expense.count}</div>
+          <div>${formatNumber(expense.count)}</div>
           <div>${formatAmount(expense.cost)}</div>
           <div>${formatAmount(multiply(expense.count, expense.cost))}</div>
         `,
