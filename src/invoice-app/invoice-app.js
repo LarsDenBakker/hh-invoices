@@ -5,6 +5,8 @@ import { renderExpenses } from './render/renderExpenses.js';
 
 const { id, referenceId, name, recipient, invoiceDate, productions, expenses } = readInvoice();
 
+document.title = `Factuur ${id} - ${name}`;
+
 render(
   html`
     <div class="invoice">
