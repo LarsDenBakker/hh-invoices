@@ -86,8 +86,9 @@ class HhHeader extends LitElement {
             raised
             .disabled=${!this.selectedInvoice || this.fetchingDetails}
             @click=${this.onSave}
-            >Save</mwc-button
           >
+            Save
+          </mwc-button>
         </div>
 
         <p class="details">
@@ -117,6 +118,9 @@ class HhHeader extends LitElement {
     try {
       this.fetchingDetails = true;
       this.selectedInvoice = await readInvoiceDetails(invoice);
+    } catch (error) {
+      this.selectedInvoice = null;
+      alert('ER GING IETS FOUT!');
     } finally {
       this.fetchingDetails = false;
     }
