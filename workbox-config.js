@@ -8,4 +8,6 @@ module.exports = {
   globDirectory: path.join(process.cwd(), 'dist'),
   // cache any html js and css by default
   globPatterns: ['**/*.{html,js,css}'],
+  clientsClaim: true,
+  skipWaiting: true,
 };
