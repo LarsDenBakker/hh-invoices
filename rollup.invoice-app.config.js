@@ -3,7 +3,7 @@ import path from 'path';
 import { createDefaultConfig } from '@open-wc/building-rollup';
 
 const config = createDefaultConfig({
-  input: './src/invoice-app/invoice-app.js',
+  input: './src/invoice-renderer/invoice-renderer.js',
   plugins: {
     indexHTML: false,
   },
@@ -13,7 +13,7 @@ export default {
   ...config,
   output: {
     ...config.output,
-    entryFileNames: 'invoice-app.js',
+    entryFileNames: 'invoice-renderer.js',
   },
   plugins: [
     ...config.plugins,
@@ -28,7 +28,10 @@ export default {
 
         this.emitFile({
           type: 'asset',
-          source: htmlString.replace('./src/invoice-app/invoice-app.js', '/invoice-app.js'),
+          source: htmlString.replace(
+            './src/invoice-renderer/invoice-renderer.js',
+            '/invoice-renderer.js',
+          ),
           name: 'invoice.html',
           fileName: 'invoice.html',
         });
