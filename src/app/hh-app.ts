@@ -83,6 +83,7 @@ class HhHeader extends LitElement {
             <hh-invoice-overview></hh-invoice-overview>
           `,
         )}
+        Astrid is gek
       </main>
     `;
   }
