@@ -25,7 +25,7 @@ class HhHeader extends LitElement {
 
     select {
       font-size: 24px;
-      margin-right: 8px;
+      margin: 0 8px;
     }
 
     iframe {
@@ -39,18 +39,7 @@ class HhHeader extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
-
-    try {
-      console.log('Fetching invoices...');
-      this.fetchingOverview = true;
-      this.invoices = await readInvoices();
-      console.log('Fetched invoices');
-    } catch (error) {
-      this.error = true;
-      console.error(error);
-    } finally {
-      this.fetchingOverview = false;
-    }
+    this.updateInvoices();
   }
 
   render() {
@@ -68,6 +57,10 @@ class HhHeader extends LitElement {
     if (this.invoices) {
       return html`
         <div class="invoices">
+          <mwc-button class="refresh-button" outlined raised @click=${this.onRefresh}>
+            Refresh
+          </mwc-button>
+
           <select @change=${this.onSelectedInvoiceChanged}>
             <option>Select an invoice</option>
             ${this.invoices
@@ -134,6 +127,24 @@ class HhHeader extends LitElement {
     } else {
       this.selectedInvoice = null;
     }
+  }
+
+  private async updateInvoices() {
+    try {
+      console.log('Fetching invoices...');
+      this.fetchingOverview = true;
+      this.invoices = await readInvoices();
+      console.log('Fetched invoices');
+    } catch (error) {
+      this.error = true;
+      console.error(error);
+    } finally {
+      this.fetchingOverview = false;
+    }
+  }
+
+  private onRefresh() {
+    this.updateInvoices();
   }
 
   private onSave() {

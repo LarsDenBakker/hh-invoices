@@ -3,6 +3,7 @@ import '@material/mwc-button';
 import '@material/mwc-top-app-bar-fixed';
 import { authManager } from '../gapi/authManager';
 import { when } from '../utils';
+import './pwa-update-available.js';
 
 @customElement('hh-header')
 class HhHeader extends LitElement {
@@ -31,6 +32,11 @@ class HhHeader extends LitElement {
       align-items: center;
     }
 
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+
     .logo {
       width: 100%;
       height: auto;
@@ -41,10 +47,13 @@ class HhHeader extends LitElement {
       margin-right: 8px;
     }
 
+    mwc-button {
+      --mdc-theme-primary: #6200ee;
+    }
+
     .auth-button {
       flex-shrink: 0;
       margin-left: 8px;
-      --mdc-theme-primary: #6200ee;
     }
 
     @media (max-width: 480px) {
@@ -62,19 +71,25 @@ class HhHeader extends LitElement {
             <img class="logo" src="/assets/logo.png" />
           </div>
 
-          ${when(
-            this.initialized && this.signedIn,
-            () => html`
-              <mwc-button
-                slot="actionItems"
-                class="auth-button"
-                label="Log out"
-                outlined
-                @click=${this.changeAuth}
-              >
-              </mwc-button>
-            `,
-          )}
+          <div class="header-right">
+            <pwa-update-available>
+              <mwc-button outlined>Update</mwc-button>
+            </pwa-update-available>
+
+            ${when(
+              this.initialized && this.signedIn,
+              () => html`
+                <mwc-button
+                  slot="actionItems"
+                  class="auth-button"
+                  label="Log out"
+                  outlined
+                  @click=${this.changeAuth}
+                >
+                </mwc-button>
+              `,
+            )}
+          </div>
         </div>
       </header>
     `;
