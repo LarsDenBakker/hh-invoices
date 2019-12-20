@@ -1,14 +1,14 @@
 import { LitElement, html, css, customElement, property } from 'lit-element';
 import '@material/mwc-button';
 import '@material/mwc-top-app-bar-fixed';
-import { authManager } from '../gapi/authManager';
+import { authManager } from '../firebase/authManager';
 import { when } from '../utils';
 import './pwa-update-available.js';
 
 @customElement('hh-header')
 class HhHeader extends LitElement {
-  @property() signedIn = false;
-  @property() initialized = false;
+  @property({ type: Boolean }) signedIn = false;
+  @property({ type: Boolean }) initialized = false;
 
   static styles = css`
     header {
