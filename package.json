@@ -42,6 +42,11 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
+    "@lion/form": "^0.3.13",
+    "@lion/input": "^0.4.1",
+    "@lion/input-date": "^0.4.1",
+    "@lion/input-datepicker": "^0.7.4",
+    "@lion/select": "^0.4.1",
     "@material/mwc-top-app-bar-fixed": "^0.10.0",
     "@pwabuilder/pwainstall": "^0.10.0",
     "gapi": "0.0.3",
