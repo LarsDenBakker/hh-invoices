@@ -3,6 +3,7 @@ import { authManager } from '../gapi/authManager';
 import { when } from '../utils';
 import './hh-header';
 import './hh-invoice-overview';
+import './hh-invoice-editor';
 
 @customElement('hh-app')
 class HhHeader extends LitElement {
@@ -13,7 +14,8 @@ class HhHeader extends LitElement {
       --mdc-button-outline-color: #6200ee;
     }
 
-    :host {
+    hh-header,
+    hh-invoice-overview {
       text-align: center;
       font-size: 20px;
     }
@@ -80,7 +82,8 @@ class HhHeader extends LitElement {
         ${when(
           this.initialized && this.signedIn,
           () => html`
-            <hh-invoice-overview></hh-invoice-overview>
+            <!-- <hh-invoice-overview></hh-invoice-overview> -->
+            <hh-invoice-editor></hh-invoice-editor>
           `,
         )}
       </main>
