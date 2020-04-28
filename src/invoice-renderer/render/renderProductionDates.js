@@ -17,6 +17,6 @@ export function renderProductionDates(productionDates) {
     .join(', ');
 
   return html`
-    <div>Op ${text}</div>
+    <div>${text ? `Op ${text}` : html`&nbsp;`}</div>
   `;
 }
