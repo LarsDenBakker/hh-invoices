@@ -3,7 +3,6 @@ import '@material/mwc-button';
 import '@material/mwc-top-app-bar-fixed';
 import { authManager } from '../gapi/authManager';
 import { when } from '../utils';
-import './pwa-update-available.js';
 
 @customElement('hh-header')
 class HhHeader extends LitElement {
@@ -72,10 +71,6 @@ class HhHeader extends LitElement {
           </div>
 
           <div class="header-right">
-            <pwa-update-available>
-              <mwc-button outlined>Update</mwc-button>
-            </pwa-update-available>
-
             ${when(
               this.initialized && this.signedIn,
               () => html`

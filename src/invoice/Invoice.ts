@@ -13,11 +13,12 @@ export interface Expense {
 
 export interface Invoice {
   id: string;
-  referenceId: string;
+  referenceId?: string;
   name: string;
+  description?: string;
   recipient: string;
   location: string;
   invoiceDate: String;
-  productions: Production[];
+  productions?: Production[];
   expenses: Expense[];
 }

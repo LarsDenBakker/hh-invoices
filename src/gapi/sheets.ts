@@ -1,16 +1,15 @@
 import gapi from './gapi';
 import { Invoice, Expense, Production } from '../invoice/Invoice';
 
-const spreadsheetId = '1XMjYbQ6tG01Vc3QQ6KIq7eRtrA0U9OLgU6j8MJi8egg';
+export const spreadsheetIds: Record<string, string> = {
+  2017: '1lffbhUnOBdDwTrq2qwElBK-pHKyUvZUOFlBrzH61qnM',
+  2018: '1mdLGHuyxaGoIMEUB_oqgnzxXEKr5op-PiPQaB3a-1SE',
+  2019: '1XMjYbQ6tG01Vc3QQ6KIq7eRtrA0U9OLgU6j8MJi8egg',
+  2020: '1pkyVKHuNAj6_bE862frnz4k3c2Z7OQPEO4aUv5qf7WQ',
+  2021: '1GJq5REEUSFW_DGpvOyIbH-Meg7gFI7kVe18kK2R4yG8',
+};
 
 type Spreadsheets = gapi.client.sheets.SpreadsheetsResource;
-
-export async function readOverview() {
-  await gapi.client.sheets.spreadsheets.values.get({
-    spreadsheetId,
-    range: 'Class Data!A2:E',
-  });
-}
 
 type MappedObject = { [key: string]: string };
 
@@ -23,6 +22,7 @@ const invoiceSheetMappings: MappedObject = {
   Nummer: 'id',
   Referentienummer: 'referenceId',
   Naam: 'name',
+  Omschrijving: 'description',
   Klant: 'recipient',
   Datum: 'invoiceDate',
   'Productie data': 'productions',
@@ -46,9 +46,9 @@ const recipientMappings: MappedObject = {
   Adres: 'address',
 };
 
-function mapRows(rows: string[][], headingMappings: MappedObject) {
+function mapRows<T>(rows: string[][], headingMappings: MappedObject): T[] {
   if (!rows) {
-    return null;
+    return [];
   }
   const rowHeadings = rows[0];
 
@@ -65,10 +65,10 @@ function mapRows(rows: string[][], headingMappings: MappedObject) {
         [headingMappings[sheetHeading]]: cell,
       };
     }, {}),
-  );
+  ) as T[];
 }
 
-async function readValues(spreadsheets: Spreadsheets, range: string) {
+async function readValues(spreadsheetId: string, spreadsheets: Spreadsheets, range: string) {
   const response = await spreadsheets.values.get({
     spreadsheetId,
     valueRenderOption: 'UNFORMATTED_VALUE',
@@ -78,34 +78,43 @@ async function readValues(spreadsheets: Spreadsheets, range: string) {
   return JSON.parse(response.body).values;
 }
 
-async function readRows(spreadsheets: Spreadsheets, range: string, headingMappings: MappedObject) {
-  const rows = await readValues(spreadsheets, range);
+async function readRows(
+  spreadsheetId: string,
+  spreadsheets: Spreadsheets,
+  range: string,
+  headingMappings: MappedObject,
+): Promise<Invoice[]> {
+  const rows = await readValues(spreadsheetId, spreadsheets, range);
   return mapRows(rows, headingMappings);
 }
 
-export async function readInvoices() {
+export async function readInvoices(spreadsheetId: string) {
   const { spreadsheets } = gapi.client.sheets;
-  return readRows(spreadsheets, 'Facturen!A:H', invoiceSheetMappings) as Promise<Invoice[]>;
+  const allRows = await readRows(spreadsheetId, spreadsheets, 'Facturen!A:I', invoiceSheetMappings);
+  return allRows.filter(r => !!r.id);
 }
 
-export async function readInvoiceDetails(invoice: Invoice) {
+export async function readInvoiceDetails(spreadsheetId: string, invoice: Invoice) {
   const { spreadsheets } = gapi.client.sheets;
 
   // TODO: caching
 
   const recipients = (await readRows(
+    spreadsheetId,
     spreadsheets,
     'Klanten!A:B',
     recipientMappings,
   )) as Recipient[];
 
   const expenses = (await readRows(
+    spreadsheetId,
     spreadsheets,
     `${invoice.id}!A:D`,
     expenseSheetMappings,
   )) as Expense[];
 
   const productions = (await readRows(
+    spreadsheetId,
     spreadsheets,
     `${invoice.id}!F:H`,
     productionDatesMappings,

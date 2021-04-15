@@ -3,7 +3,7 @@ import { readInvoice } from './utils/readInvoice.js';
 import { renderProductionDates } from './render/renderProductionDates.js';
 import { renderExpenses } from './render/renderExpenses.js';
 
-const { id, referenceId, name, recipient, invoiceDate, productions, expenses } = readInvoice();
+const { id, referenceId, name, recipient, invoiceDate, productions, expenses, description } = readInvoice();
 
 document.title = `Factuur ${id} - ${name}`;
 
@@ -37,6 +37,7 @@ render(
             `
           : ''}
         ${productions ? renderProductionDates(productions) : ''}
+        ${description}
 
         <p>
           ${referenceId

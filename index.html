@@ -1,63 +1,68 @@
 <!DOCTYPE html>
 <html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="Description" content="HH Invoice Printer" />
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="Description" content="HH Invoice Printer">
+    <link rel="manifest" href="/assets/manifest.json" />
 
-  <link rel="manifest" href="/assets/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="HH Invoices" />
 
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="HH Invoices">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png" />
+    <link rel="manifest" href="/assets/images/icons/site.webmanifest" />
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5" />
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml" />
+    <meta name="theme-color" content="#98ff98" />
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
-  <link rel="manifest" href="/assets/images/icons/site.webmanifest">
-  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
-  <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
-  <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
-  <meta name="theme-color" content="#98ff98">
+    <title>Handen in het Haar</title>
 
-  <title>Handen in het Haar</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        background-color: white;
+      }
 
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background-color: white;
-    }
+      hh-app {
+        display: block;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 24px 24px 24px;
+      }
+    </style>
+  </head>
 
-    hh-app {
-      display: block;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 24px 24px 24px;
-    }
-  </style>
-</head>
+  <body>
+    <hh-app></hh-app>
 
-<body>
+    <script type="module" src="./src/app/hh-app.ts"></script>
 
-  <hh-app></hh-app>
-
-  <script type="module" src="./src/app/hh-app.ts"></script>
-
-  <script>
-    /* eslint-disable */
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then((reg) => {
-          console.log('Service worker registered.', reg);
-        });
-    });
-  </script>
-
-</body>
-
+    <script>
+      /* eslint-disable */
+      window.addEventListener('load', () => {
+        // remove service workers we had installed previously
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker
+            .getRegistrations()
+            .then(function(registrations) {
+              for (let registration of registrations) {
+                registration.unregister();
+              }
+            })
+            .catch(function(err) {
+              console.log('Service Worker registration failed: ', err);
+            });
+        }
+      });
+    </script>
+  </body>
 </html>
