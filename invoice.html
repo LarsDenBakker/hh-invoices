@@ -1,113 +1,115 @@
 <html>
-
-<head>
-  <style>
-    html {
-      display: block;
-      font-family: arial;
-      box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
-      width: 21cm;
-      height: 29.6cm;
-      margin: 0 auto;
-    }
-
-    html,
-    body {
-      margin: 0 auto;
-      padding: 0;
-      background-color: rgb(204, 204, 204);
-    }
-
-    @page {
-      size: A4;
-      margin: 0;
-    }
-
-    @media print {
+  <head>
+    <style>
       html {
-        margin: 0;
-        border: initial;
-        border-radius: initial;
-        width: initial;
-        min-height: initial;
-        box-shadow: initial;
-        background: initial;
-        page-break-after: always;
+        display: block;
+        font-family: arial;
+        box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+        width: 21cm;
+        height: 29.6cm;
+        margin: 0 auto;
       }
-    }
 
-    .invoice {
-      height: 100%;
-      background-color: white;
-      padding: 48px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-sizing: border-box;
-    }
+      html,
+      body {
+        margin: 0 auto;
+        padding: 0;
+        background-color: rgb(204, 204, 204);
+      }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+      @page {
+        size: A4;
+        margin: 0;
+      }
 
-    .invoice-id {
-      font-weight: bold;
-    }
+      @media print {
+        html {
+          margin: 0;
+          border: initial;
+          border-radius: initial;
+          width: initial;
+          min-height: initial;
+          box-shadow: initial;
+          background: initial;
+          page-break-after: always;
+        }
+      }
 
-    .recipient {
-      list-style: none;
-      -webkit-padding-start: 0;
-    }
+      .invoice {
+        height: 100%;
+        background-color: white;
+        padding: 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+      }
 
-    .production-name {
-      font-weight: bold;
-    }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-    .expenses-grid {
-      display: grid;
-      grid-template-columns: 55% 15% 15% 15%;
-    }
+      .invoice-id {
+        font-weight: bold;
+      }
 
-    .expenses-grid>* {
-      padding: 4px;
-      border: 1px solid black;
-    }
+      .recipient {
+        list-style: none;
+        -webkit-padding-start: 0;
+      }
 
-    .expenses-summary-grid {
-      display: grid;
-      grid-template-columns: 75% 25%;
-      margin-top: 24px;
-    }
+      .production-name {
+        font-weight: bold;
+      }
 
-    .expenses-summary-grid>* {
-      padding: 4px;
-      border: 1px solid black;
-    }
+      .expenses-grid {
+        display: grid;
+        grid-template-columns: 55% 15% 15% 15%;
+      }
 
-    .expenses-heading {
-      background-color: lightgray;
-    }
+      .expenses-grid > * {
+        padding: 4px;
+        border: 1px solid black;
+      }
 
-    .address,
-    .contact-details {
-      display: block;
-      font-size: 14px;
-    }
+      .expenses-summary-grid {
+        display: grid;
+        grid-template-columns: 75% 25%;
+        margin-top: 24px;
+      }
 
-    .contact-details {
-      margin-top: 8px;
-    }
+      .expenses-summary-grid > * {
+        padding: 4px;
+        border: 1px solid black;
+      }
 
-    .iban {
-      font-weight: bold;
-    }
-  </style>
-</head>
+      .expenses-heading {
+        background-color: lightgray;
+      }
 
-<body>
-  <script type="module" src="./src/invoice-renderer/invoice-renderer.js"></script>
-</body>
+      .address,
+      .contact-details {
+        display: block;
+        font-size: 14px;
+      }
 
+      .contact-details {
+        margin-top: 8px;
+      }
+
+      .iban {
+        font-weight: bold;
+      }
+
+      .render-whitespace {
+        white-space: pre;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="module" src="./src/invoice-renderer/invoice-renderer.js"></script>
+  </body>
 </html>

@@ -26,7 +26,7 @@ export function renderExpenses(expenses) {
       <div class="expenses-heading">Bedrag</div>
       ${expenses.map(
         expense => html`
-          <div>${expense.name}</div>
+          <div class="render-whitespace">${expense.name?.trim()}</div>
           <div>${formatNumber(expense.count)}</div>
           <div>${formatAmount(expense.cost)}</div>
           <div>${formatAmount(multiply(expense.count, expense.cost))}</div>

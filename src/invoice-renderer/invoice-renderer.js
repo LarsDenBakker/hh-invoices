@@ -3,7 +3,16 @@ import { readInvoice } from './utils/readInvoice.js';
 import { renderProductionDates } from './render/renderProductionDates.js';
 import { renderExpenses } from './render/renderExpenses.js';
 
-const { id, referenceId, name, recipient, invoiceDate, productions, expenses, description } = readInvoice();
+const {
+  id,
+  referenceId,
+  name,
+  recipient,
+  invoiceDate,
+  productions,
+  expenses,
+  description,
+} = readInvoice();
 
 document.title = `Factuur ${id} - ${name}`;
 
@@ -31,14 +40,12 @@ render(
         ${name
           ? html`
               <div>
-                Hierbij bereken ik u voor mijn medewerking aan:
                 <span class="production-name">${name}</span>
               </div>
             `
           : ''}
         ${productions ? renderProductionDates(productions) : ''}
-        ${description}
-
+        <div class="render-whitespace">${description?.trim()}</div>
         <p>
           ${referenceId
             ? html`
